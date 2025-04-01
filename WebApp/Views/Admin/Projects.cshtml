@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "_LoggedInLayout";
+
+    ViewData["Title"] = "Projects";
+}
+
+<partial name="Partials/_AddProjectForm" />
+<partial name="Partials/_EditProjectForm" />
+
+<section id="projects">
+    <header class="header-seperate">
+        <h2>Projects</h2>
+        <button type="submit" data-modal="true" data-target="#addProjectModal" class="btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Project</span>
+        </button>
+    </header>
+
+
+    <div>
+        @await Html.PartialAsync("Partials/_ProjectListPartial")
+    </div>
+</section>

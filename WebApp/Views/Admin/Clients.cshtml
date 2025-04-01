@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "_LoggedInLayout";
+
+    ViewData["Title"] = "Clients";
+}
+
+<partial name="Partials/_AddClientFormPartial" />
+<partial name="Partials/_EditClientFormPartial" />
+
+<section id="clients">
+    <header class="header-seperate">
+        <h2>Clients</h2>
+        <button type="submit" data-modal="true" data-target="#addClientModal" class="btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Client</span>
+        </button>
+    </header>
+
+
+    <div class="client-list surface">
+        @await Html.PartialAsync("Partials/_ClientListPartial")
+    </div>
+
+</section>

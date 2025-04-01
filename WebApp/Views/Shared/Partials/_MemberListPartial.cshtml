@@ -1,0 +1,30 @@
+﻿@model Member
+
+
+<div class="member-card">
+    <span class="member-actions">
+        <i class="fa-solid fa-pen-to-square" data-modal="true" data-target="#editMemberModal"></i>
+    </span>
+
+    <div class="content-center-card">
+
+        <div class="member-info">
+            <img src="~/images/Avatar.svg" alt="Alternate Text" />
+        </div>
+
+        <div class="member-info">
+            <h3>@Model.FirstName @Model.LastName</h3>
+            <span class="job-title">@Model.JobTitle</span>
+        </div>
+
+        <div class="member-info">
+            <span>@Model.Email</span>
+            <span>@Model.PhoneNumber</span>
+        </div>
+
+        <div>
+            <button class="btn-member">Message</button>
+        </div>
+
+    </div>
+</div>

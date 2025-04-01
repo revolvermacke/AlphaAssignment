@@ -1,0 +1,14 @@
+﻿<nav class="nav-links">
+    <a class="nav-link @(Context.Request.Path == "/admin/ projects" ? "active": "")" asp-action="Projects" asp-controller="Admin">
+        <i class="fa-solid fa-briefcase"></i>
+        <span>Projects</span>
+    </a>
+    <a class="nav-link @(Context.Request.Path == "/admin/members" ? "active": "")" asp-action="Members" asp-controller="Admin">
+        <i class="fa-solid fa-users"></i>
+        <span>Team Members</span>
+    </a>
+    <a class="nav-link @(Context.Request.Path == "/admin/clients" ? "active": "")" asp-action="Clients" asp-controller="Admin">
+        <i class="fa-solid fa-handshake"></i>
+        <span>Clients</span>
+    </a>
+</nav>

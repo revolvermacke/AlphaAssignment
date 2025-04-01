@@ -1,0 +1,39 @@
+﻿@model MemberSignInForm
+
+<form class="sign-form" asp-action="SignIn" asp-controller="Auth" method="post" novalidate enctype="multipart/form-data">
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <h2 class="title">Login</h2>
+
+    <div class="forms-group">
+
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" placeholder="Your email address" />
+        <span asp-validation-for="Email"></span>
+
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" placeholder="Enter your password" />
+        <span asp-validation-for="Password"></span>
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="remember-me" />
+            <label for="remember-me">
+                Remember me
+            </label>
+        </div>
+
+
+        @if (!string.IsNullOrEmpty(ViewBag?.ErrorMessage))
+        {
+            <div class="alert-notification error">
+                @ViewBag?.ErrorMessage
+            </div>
+        }
+
+        <button type="submit">Log in</button>
+
+        <div class="login-link">
+            <p>Don´t have an account? <a class="click-login" asp-controller="Auth" asp-action="SignUp">Sign Up</a></p>
+        </div>
+    </div>
+</form>

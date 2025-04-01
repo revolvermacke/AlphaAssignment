@@ -1,0 +1,76 @@
+﻿@model EditMemberForm
+
+<div id="editMemberModal" class="modal-container">
+    <div class="content-modal">
+
+        <div class="header-modal">
+            <h3>Edit Member</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
+        </div>
+
+        <form novalidate method="post" asp-action="AddMember" asp-controller="Members">
+
+            <div class="image-previewer circle">
+                <img src="" class="image-preview" />
+                <input asp-for="MemberImage" accept="image/*" class="hide" />
+                <i class="fa-solid fa-camera"></i>
+            </div>
+
+            <div class="fullname-member">
+                <div class="forms-group">
+                    <label asp-for="FirstName"></label>
+                    <div class="field-group">
+                        <input asp-for="FirstName" />
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                </div>
+
+                <div class="forms-group">
+                    <label asp-for="LastName"></label>
+                    <div class="field-group">
+                        <input asp-for="LastName" />
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="forms-group">
+                <label asp-for="Email"></label>
+                <div class="field-group">
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="JobTitle"></label>
+                <div class="field-group">
+                    <input asp-for="JobTitle" />
+                    <span asp-validation-for="JobTitle"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Address"></label>
+                <div class="field-group">
+                    <input asp-for="Address" />
+                    <span asp-validation-for="Address"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Phone"></label>
+                <div class="field-group">
+                    <input asp-for="Phone" />
+                    <span asp-validation-for="Phone"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Save</button>
+        </form>
+
+
+    </div>
+</div>

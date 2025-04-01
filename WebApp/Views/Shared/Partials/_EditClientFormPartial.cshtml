@@ -1,0 +1,57 @@
+﻿@model EditClientForm
+
+<div id="editClientModal" class="modal-container">
+    <div class="content-modal">
+
+        <div class="header-modal">
+            <h3>Edit Client</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
+        </div>
+
+        <form novalidate method="post" asp-action="EditClient" asp-controller="Clients">
+            <input asp-for="Id" readonly type="hidden"/>
+            
+            <div class="image-previewer circle">
+                <img src="" class="image-preview" />
+                <input asp-for="ClientImage" accept="image/*" class="hide" />
+                <i class="fa-solid fa-camera"></i>
+            </div>
+            
+            <div class="forms-group">
+                <label asp-for="ClientName"></label>
+                <div class="field-group">
+                    <input asp-for="ClientName" />
+                    <span asp-validation-for="ClientName"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Email"></label>
+                <div class="field-group">
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Location"></label>
+                <div class="field-group">
+                    <input asp-for="Location" />
+                    <span asp-validation-for="Location"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Phone"></label>
+                <div class="field-group">
+                    <input asp-for="Phone" />
+                    <span asp-validation-for="Phone"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Save</button>
+        </form>
+
+
+    </div>
+</div>
