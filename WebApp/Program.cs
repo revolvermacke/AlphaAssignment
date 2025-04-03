@@ -5,6 +5,7 @@ using Data.Entities;
 using Data.Interfaces;
 using Data.Repositories;
 using Data.Seeders;
+using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("LocalDB")));
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 //builder.Services.AddScoped<IProjectMemberService, ProjectMemberService>();
@@ -38,6 +40,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Signin";
     options.SlidingExpiration = true;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.Expiration = TimeSpan.FromHours(1);
 });
 
 

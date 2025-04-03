@@ -2,7 +2,7 @@
 
 public class ProjectMemberJunctionEntity
 {
-    public int ProjectId { get; set; }
+    public string ProjectId { get; set; } = null!;
     public ProjectEntity Project { get; set; } = null!;
 
     public string UserId { get; set; } = null!;

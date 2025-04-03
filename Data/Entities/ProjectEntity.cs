@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Domain.Models;
 
 namespace Data.Entities;
 
-//Image?
 public class ProjectEntity
 {
     [Key]
-    public int Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string Title { get; set; } = null!;
+    public string? Image { get; set; }
+
+    public string ProjectName { get; set; } = null!;
 
     public string? Description { get; set; }
 
@@ -21,13 +23,20 @@ public class ProjectEntity
     [Column(TypeName = "date")]
     public DateOnly EndDate { get; set; }
 
-    public int? Budget { get; set; }
+    public decimal? Budget { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
 
+
+    [ForeignKey(nameof(Status))]
     public int StatusId { get; set; }
     public StatusEntity Status { get; set; } = null!;
 
-    public int ClientId { get; set; }
+
+    [ForeignKey(nameof(Client))]
+    public string ClientId { get; set; } = null!;
     public ClientEntity Client { get; set; } = null!;
 
+
+    // users on projects
     public ICollection<ProjectMemberJunctionEntity> ProjectMembers { get; set; } = [];
 }
