@@ -1,11 +1,13 @@
-﻿@{
+﻿@model ClientsViewModel
+
+@{
     Layout = "_LoggedInLayout";
 
     ViewData["Title"] = "Clients";
 }
 
-<partial name="Partials/_AddClientFormPartial" />
-<partial name="Partials/_EditClientFormPartial" />
+<partial name="Partials/_AddClientFormPartial" model="Model.AddClientForm"/>
+<partial name="Partials/_EditClientFormPartial" model="Model.EditClientForm" />
 
 <section id="clients">
     <header class="header-seperate">
@@ -18,7 +20,26 @@
 
 
     <div class="client-list surface">
-        @await Html.PartialAsync("Partials/_ClientListPartial")
+        <table>
+            <thead>
+                <tr>
+                    <th class="client-check"><input type="checkbox" /></th>
+                    <th class="client-info">Client Name</th>
+                    <th class="client-location">Location</th>
+                    <th class="client-phone">Phone</th>
+                    <th class="client-date">Date</th>
+                    <th class="client-status">Status</th>
+                    <th class="client-actions"></th>
+                </tr>
+            </thead>
+        </table>
+        @if(Model.Clients != null && Model.Clients.Any()) 
+        {
+            @foreach (var client in Model.Clients)
+            {
+                @await Html.PartialAsync("Partials/_ClientListPartial", client)
+            }
+        }
     </div>
 
 </section>

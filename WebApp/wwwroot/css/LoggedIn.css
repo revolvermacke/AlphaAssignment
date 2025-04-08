@@ -348,6 +348,30 @@ table {
 
 
 /*forms*/
+
+
+.forms-horizontal-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.select-member {
+    position: relative;
+    top: -33px;
+    right: -450px;
+    margin-bottom: -1rem;
+    i
+
+{
+    cursor: pointer;
+}
+
+}
+
 form {
     width: 100%;
 }

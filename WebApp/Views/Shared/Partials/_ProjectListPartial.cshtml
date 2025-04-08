@@ -1,11 +1,13 @@
-﻿<div class="projects-list">
+﻿@model Project
+
+<div class="projects-list">
     <div class="project-card">
         <div class="pc-top">
             <div class="logo-header">
                 <img src="~/images/projectlogo.svg" alt="project logotype" />
                 <div>
-                    <h6>ASP.NET Web App</h6>
-                    <span>EPN Sverige Ab</span>
+                    <h6>@Model.ProjectName</h6>
+                    <span>@Model.Client</span>
                 </div>
             </div>
             <div>
@@ -16,7 +18,7 @@
         </div>
 
         <div>
-            <span>You need to develop an web application on that simulates a admin portal.</span>
+            <span>@Model.Description</span>
         </div>
 
         <div class="pc-bottom">

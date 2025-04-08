@@ -1,11 +1,13 @@
-﻿@{
+﻿@model ProjectsViewModel
+
+@{
     Layout = "_LoggedInLayout";
 
     ViewData["Title"] = "Projects";
 }
 
-<partial name="Partials/_AddProjectForm" />
-<partial name="Partials/_EditProjectForm" />
+<partial name="Partials/_AddProjectForm" model="Model.AddProjectForm" />
+<partial name="Partials/_EditProjectForm" model="Model.EditProjectForm" />
 
 <section id="projects">
     <header class="header-seperate">
@@ -17,7 +19,13 @@
     </header>
 
 
-    <div>
-        @await Html.PartialAsync("Partials/_ProjectListPartial")
+    <div class="projects-list">
+        @if (Model.Projects != null && Model.Projects.Any())
+        {
+            @foreach (var project in Model.Projects)
+            {
+                @await Html.PartialAsync("Partials/_ProjectListPartial", project)
+            }
+        }
     </div>
 </section>

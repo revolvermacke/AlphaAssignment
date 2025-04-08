@@ -1,13 +1,20 @@
-﻿using Business.Models;
+﻿using Business.Interfaces;
+using Business.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers;
 
-public class ProjectsController : Controller
+public class ProjectsController(IProjectService projectService, IClientService clientService, IStatusService statusService) : Controller
 {
+    private readonly IProjectService _projectService = projectService;
+    private readonly IClientService _clientService = clientService;
+    private readonly IStatusService _statusService = statusService;
+
     [HttpPost]
-    public IActionResult AddProject(AddProjectForm form)
+    public async Task<IActionResult> AddProject(AddProjectForm form)
     {
 
         if (!ModelState.IsValid)
@@ -22,9 +29,14 @@ public class ProjectsController : Controller
             return BadRequest(new { success = false, errors });
         }
 
-        //send data to clientService
+        ProjectRegistrationForm dto = form;
 
-        return Ok(new { success = true });
+        var result = await _projectService.CreateProjectAsync(dto);
+
+        if (!result.Success)
+            return StatusCode(result.StatusCode, new { success = false, message = result.ErrorMessage });
+
+        return RedirectToAction("Projects", "Admin");
     }
 
     [HttpPost]

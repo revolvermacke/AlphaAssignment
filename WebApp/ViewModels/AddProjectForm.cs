@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Dtos;
+using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModels;
@@ -38,7 +40,34 @@ public class AddProjectForm
     [DataType(DataType.Text)]
     public string Members { get; set; } = null!;
 
+    [Display(Name = "Status", Prompt = "Choose status")]
+    [DataType(DataType.Text)]
+    public int Status { get; set; }
+
     [Display(Name = "Price", Prompt = "Enter a price")]
     [DataType(DataType.Text)]
     public decimal price { get; set; }
+
+    public static implicit operator ProjectRegistrationForm(AddProjectForm model)
+    {
+        return model == null
+            ? null!
+            : new ProjectRegistrationForm
+            {
+                ProjectName = model.ProjectName,
+                ClientId = model.ClientName,
+                Description = model.Description,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                Budget = model.price,
+                StatusId = model.Status,
+            };
+    }
+
+
+
+    public IEnumerable<Client> Clients { get; set; } = [];
+    public IEnumerable<Status> Statuses { get; set; } = [];
+    public IEnumerable<Member> MembersOnJob { get; set; } = [];
+
 }

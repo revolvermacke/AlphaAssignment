@@ -1,5 +1,138 @@
-﻿namespace Business.Services;
+﻿using Business.Factories;
+using Business.Interfaces;
+using Business.Models;
+using Data.Entities;
+using Data.Interfaces;
+using Domain.Dtos;
+using Domain.Extensions;
+using Domain.Models;
+using System.Diagnostics;
 
-public class ProjectService
+namespace Business.Services;
+
+public class ProjectService(IProjectRepository repository, IProjectMemberRepository projectMemberRepository, IProjectMemberService projectMemberService) : IProjectService
 {
+    private readonly IProjectRepository _projectRepository = repository;
+    private readonly IProjectMemberRepository _projectMemberRepository = projectMemberRepository;
+    private readonly IProjectMemberService _projectMemberService = projectMemberService;
+
+    // Using method below this one.
+
+    //public async Task<IResponseResult> CreateProjectAsync(ProjectRegistrationForm form)
+    //{
+    //    if (form == null)
+    //        return ResponseResult.BadRequest("Invalid form");
+
+    //    try
+    //    {
+    //        var projectExist = await _projectRepository.AlreadyExistsAsync(x => x.ProjectName == form.ProjectName);
+    //        if (projectExist)
+    //            return ResponseResult.Error("Project with same name already exists.");
+
+    //        await _projectRepository.BeginTransactionAsync();
+    //        var projectEntity = form.MapTo<ProjectEntity>();
+    //        var result = await _projectRepository.AddAsync(projectEntity);
+    //        var saveResult = await _projectRepository.SaveAsync();
+    //        if (result == null && saveResult == false)
+    //            throw new Exception("Error saving project");
+
+    //        foreach (var memberIds in form.ProjectMember.UserId)
+    //        {
+    //            var projectMemberEntity = ProjectMemberFactory.CreateEntity(projectEntity.Id, memberIds.ToString());
+    //            await _projectMemberRepository.AddAsync(projectMemberEntity);
+    //        }
+
+    //        return ResponseResult<ProjectEntity>.Ok(result);
+    //    }
+
+    //    catch (Exception ex)
+    //    {
+    //        await _projectRepository.RollbackTransactionAsync();
+    //        Debug.WriteLine(ex.Message);
+    //        return ResponseResult.Error(ex.Message);
+    //    }
+    //}
+
+    public async Task<IResponseResult> CreateProjectAsync(ProjectRegistrationForm form)
+    {
+        if (form == null)
+            return ResponseResult.BadRequest("Invalid form");
+
+        try
+        {
+            var projectExist = await _projectRepository.AlreadyExistsAsync(x => x.ProjectName == form.ProjectName);
+            if (projectExist == true)
+                return ResponseResult.Error("Project with that name already exist");
+
+            await _projectRepository.BeginTransactionAsync();
+            var projectEntity = form.MapTo<ProjectEntity>();
+            var result = await _projectRepository.AddAsync(projectEntity);
+            var saveResult = await _projectRepository.SaveAsync();
+            if (result == null && saveResult == false)
+                throw new Exception("Error saving project");
+
+            foreach (var memberIds in form.ProjectMember.UserId)
+            {
+                var projectMemberJunctionEntity = form.MapTo<ProjectMemberJunctionEntity>();
+                await _projectMemberRepository.AddAsync(projectMemberJunctionEntity);
+            }
+
+            var psSaveResult = await _projectRepository.SaveAsync();
+            if (psSaveResult == false)
+                throw new Exception("Error saving ProjectService");
+
+            await _projectRepository.CommitTransactionAsync();
+            return ResponseResult.Ok();
+        }
+        catch (Exception ex)
+        {
+            await _projectRepository.RollbackTransactionAsync();
+            Debug.WriteLine(ex.Message);
+            return ResponseResult.Error($"Error creating project :: {ex.Message}");
+        }
+    }
+
+
+    public async Task<IResponseResult<IEnumerable<Project>>> GetProjectsAsync()
+    {
+        var response = await _projectRepository.GetAllAsync
+            (
+                orderByDescending: true,
+                sortBy: s => s.Created,
+                where: null,
+                includes => includes.ProjectMembers,
+                includes => includes.Status,
+                includes => includes.Client
+            );
+
+        return ResponseResult<IEnumerable<Project>>.Ok(response);
+    }
+
+    public async Task<IResponseResult<Project>> GetProjectAsync(string id)
+    {
+        try
+        {
+            var response = await _projectRepository.GetAsync
+            (
+                where: x => x.Id == id,
+                includes => includes.ProjectMembers,
+                includes => includes.Status,
+                includes => includes.Client
+            );
+
+            if (response == null)
+                throw new Exception("Error retrieving project.");
+
+            return ResponseResult<Project>.Ok(response);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return null!;
+        }
+    }
+
+    //update
+
+    //delete
 }

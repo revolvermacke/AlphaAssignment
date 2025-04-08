@@ -54,7 +54,6 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         try
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
         catch (Exception ex)
@@ -77,7 +76,7 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error saving entity :: {ex.Message}");
+            Debug.WriteLine($"Error saving entity :: {ex}");
             return false;
         }
     }
@@ -88,8 +87,6 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         {
             var entities = await _dbSet.ToListAsync();
             return entities;
-            //var result = entities.Select(entity => entity.MapTo<TModel>());
-            //return result;
         }
         catch (Exception ex)
         {
@@ -177,7 +174,7 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
 
             var result = entity!.MapTo<TModel>();
             return result;
-            //return entity ?? null!;
+            
         }
         catch (Exception ex)
         {

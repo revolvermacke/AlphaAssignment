@@ -1,26 +1,17 @@
-﻿<table>
-    <thead>
-        <tr>
-            <th class="client-check"><input type="checkbox" /></th>
-            <th class="client-info">Client Name</th>
-            <th class="client-location">Location</th>
-            <th class="client-phone">Phone</th>
-            <th class="client-date">Date</th>
-            <th class="client-status">Status</th>
-            <th class="client-actions"></th>
-        </tr>
-    </thead>
+﻿@model Client
+
+<table>
     <tbody>
         <tr>
             <td class="client-check"><input type="checkbox" /></td>
             <td class="client-info">
                 <img class="client-image" src="~/images/Avatar.svg" alt="" />
-                <div class="client-name">MACKS Sverige AB</div>
-                <div class="client-email">info@domain.com</div>
+                <div class="client-name">@Model.ClientName</div>
+                <div class="client-email">@Model.Email</div>
             </td>
-            <td class="client-location">Örebro, Sweden</td>
-            <td class="client-phone">+4672 3370655</td>
-            <td class="client-date">25-03-10</td>
+            <td class="client-location">@Model.Location</td>
+            <td class="client-phone">@Model.PhoneNumber</td>
+            <td class="client-date">@Model.CreatedDate</td>
             <td class="client-status">
                 <div class="badge active">
                     active

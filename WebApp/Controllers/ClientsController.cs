@@ -1,13 +1,17 @@
-﻿using Business.Models;
+﻿using Business.Interfaces;
+using Business.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers;
 
-public class ClientsController : Controller
+public class ClientsController(IClientService clientService) : Controller
 {
+    private readonly IClientService _clientService = clientService;
+
     [HttpPost]
-    public IActionResult AddClient(AddClientForm form)
+    public async Task<IActionResult> AddClient(AddClientForm form)
     {
 
         if (!ModelState.IsValid)
@@ -22,9 +26,13 @@ public class ClientsController : Controller
             return BadRequest(new { success = false, errors });
         }
 
-        //send data to clientService
+        ClientRegistrationForm dto = form;
+        var result = await _clientService.CreateClientAsync(dto);
 
-        return Ok(new { success = true });
+        if (!result.Success)
+            return StatusCode(result.StatusCode, new { success = false, message = result.ErrorMessage });
+
+        return RedirectToAction("Clients", "Admin");
     }
 
     [HttpPost]
