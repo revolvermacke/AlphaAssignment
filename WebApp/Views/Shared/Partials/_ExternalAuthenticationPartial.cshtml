@@ -1,0 +1,10 @@
+﻿<form asp-controller="Auth" asp-action="ExternalSignIn" method="post" class="external-account" novalidate>
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl">
+
+    <button type="submit" name="provider" value="GitHub" class="btn-external btn-github">
+        <i class="fa-brands fa-github"></i>
+        <span>
+            Sign in with GitHub
+        </span>
+        </button>
+</form>

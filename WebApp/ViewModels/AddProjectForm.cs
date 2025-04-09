@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos;
+using Domain.Extensions;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
@@ -38,7 +39,7 @@ public class AddProjectForm
 
     [Display(Name = "Members", Prompt = "Choose members")]
     [DataType(DataType.Text)]
-    public string Members { get; set; } = null!;
+    public List<string> Members { get; set; } = [];
 
     [Display(Name = "Status", Prompt = "Choose status")]
     [DataType(DataType.Text)]
@@ -61,6 +62,7 @@ public class AddProjectForm
                 EndDate = model.EndDate,
                 Budget = model.price,
                 StatusId = model.Status,
+                MemberIds = model.Members
             };
     }
 

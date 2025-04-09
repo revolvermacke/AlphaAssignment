@@ -41,7 +41,7 @@
                 <div id="profile-avatar" class="profile-avatar point-it">
                     <img src="~/images/smallavatar.svg" alt="profile avatar" class="p-avatar" onclick="toggleMenu('dropdownmenu-avatar')" />
                     <div class="profile-dropdown" id="dropdownmenu-avatar">
-                        <a asp-action="signOut" asp-controller="Auth">Sign Out</a>
+                        @await Html.PartialAsync("Partials/_ProfilePartial")
                     </div>
                 </div>
             </div>

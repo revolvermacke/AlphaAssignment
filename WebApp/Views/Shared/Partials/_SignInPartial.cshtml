@@ -1,9 +1,14 @@
 ﻿@model MemberSignInForm
 
+
+@* @await Html.PartialAsync("Partials/_ExternalAuthenticationPartial") *@
+
+
 <form class="sign-form" asp-action="SignIn" asp-controller="Auth" method="post" novalidate enctype="multipart/form-data">
     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 
     <h2 class="title">Login</h2>
+
 
     <div class="forms-group">
 

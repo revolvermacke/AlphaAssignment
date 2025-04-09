@@ -1,0 +1,10 @@
+﻿@using System.Security.Claims
+@{
+    var email = User?.FindFirstValue(ClaimTypes.Email);
+}
+
+
+<div class="account-information">
+    <div class="acc-email">@email</div>
+    <a class="signout-link" asp-action="signOut" asp-controller="Auth">Sign Out</a>
+</div>

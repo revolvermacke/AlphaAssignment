@@ -12,5 +12,5 @@ public class ProjectRegistrationForm
     public decimal? Budget { get; set; }
     public int StatusId { get; set; }
     public string ClientId { get; set; } = null!;
-    public ProjectMember ProjectMember { get; set; } = null!;
+    public List<string> MemberIds { get; set; } = null!;
 }

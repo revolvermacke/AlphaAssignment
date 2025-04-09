@@ -71,15 +71,12 @@ public class ProjectService(IProjectRepository repository, IProjectMemberReposit
             if (result == null && saveResult == false)
                 throw new Exception("Error saving project");
 
-            foreach (var memberIds in form.ProjectMember.UserId)
+            var currentProject = await _projectRepository.GetAsync(x => x.ProjectName == form.ProjectName);
+            foreach (string memberIds in form.MemberIds)
             {
-                var projectMemberJunctionEntity = form.MapTo<ProjectMemberJunctionEntity>();
-                await _projectMemberRepository.AddAsync(projectMemberJunctionEntity);
-            }
+                await _projectMemberService.CreateProjectMemberAsync(currentProject.Id, memberIds);
 
-            var psSaveResult = await _projectRepository.SaveAsync();
-            if (psSaveResult == false)
-                throw new Exception("Error saving ProjectService");
+            }
 
             await _projectRepository.CommitTransactionAsync();
             return ResponseResult.Ok();

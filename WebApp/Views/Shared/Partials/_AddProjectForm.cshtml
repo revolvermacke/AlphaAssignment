@@ -8,7 +8,7 @@
             <button type="button" class="btn-close" data-close="true"></button>
         </div>
 
-        <form novalidate method="post" asp-action="AddProject" asp-controller="User">
+        <form novalidate method="post" asp-action="AddProject" asp-controller="Projects">
 
             <div class="image-previewer square">
                 <img src="" class="image-preview" />
@@ -35,7 +35,7 @@
                     <option selected disabled hidden>---- Select a client ----</option>
                         @foreach (var client in Model.Clients)
                         {
-                            <option value="@client.ClientName">@client.ClientName</option>
+                            <option value="@client.Id">@client.ClientName</option>
 
                         }
                         
@@ -75,7 +75,7 @@
                         <option selected disabled hidden>---- Select a status ----</option>
                         @foreach (var member in Model.MembersOnJob)
                         {
-                            <option value="@member.FirstName">@member.FirstName</option>
+                            <option value="@member.Id">@member.FirstName</option>
 
                         }
 
@@ -92,7 +92,7 @@
                         <option selected disabled hidden>---- Select a status ----</option>
                         @foreach (var status in Model.Statuses)
                         {
-                            <option value="@status.StatusName">@status.StatusName</option>
+                            <option value="@status.Id">@status.StatusName</option>
 
                         }
 

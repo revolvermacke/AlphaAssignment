@@ -1,7 +1,9 @@
 ﻿using Business.Factories;
 using Business.Interfaces;
 using Business.Models;
+using Data.Entities;
 using Data.Interfaces;
+using Domain.Extensions;
 using System.Diagnostics;
 
 namespace Business.Services;
@@ -10,6 +12,23 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
 {
     private readonly IProjectMemberRepository _projectMemberRepository = projectMemberRepository;
 
+
+    public async Task<IResponseResult> CreateProjectMemberAsync(string projectId, string memberId)
+    {
+        var source = new
+        {
+            ProjectId = projectId,
+            UserId = memberId
+        };
+
+        var projectMember = source.MapTo<ProjectMemberJunctionEntity>();
+
+        await _projectMemberRepository.AddAsync(projectMember);
+        await _projectMemberRepository.SaveAsync();
+        // fixa resulthantering
+
+        return ResponseResult<ProjectMemberJunctionEntity>.Ok(projectMember);
+    }
 
     public async Task<IResponseResult> UpdateProjectServiceAsync(int projectId, List<string> currentMemberIds, List<string> newMemberIds)
     {

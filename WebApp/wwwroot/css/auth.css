@@ -55,6 +55,7 @@ body {
     background: #c3c3c3;
 }
 
+
 .sign-form {
     display: flex;
     flex-direction: column;
@@ -181,4 +182,22 @@ body {
 .alert-notification.error {
     background-color: var(--red-tint);
     color: var(--red-dark);
+}
+
+.btn-github {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    background-color: var(--gray-100);
+}
+
+.btn-external.btn-github {
+    background-color: var(--gray-100);
+    border: none;
+    color: var(--dark-100);
+    font-weight: 600;
+
+    &:hover {
+                background-color: var(--gray-600);
+            }
 }
