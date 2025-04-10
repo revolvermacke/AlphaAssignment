@@ -3,7 +3,9 @@ using Business.Models;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 using WebApp.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Controllers;
 
@@ -57,5 +59,25 @@ public class ProjectsController(IProjectService projectService, IClientService c
         //send data to clientService
 
         return Ok(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DeleteProject(string id)
+    {
+        try
+        {
+            var projectToDelete = await _projectService.GetProjectByIdAsync(id);
+            if (projectToDelete == null)
+                return NotFound(new { Message = "Project not found" });
+
+            await _projectService.DeleteProjectAsync(id);
+            return RedirectToAction("Projects", "Admin");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500, new { Message = "An error occurred while deleting project" });
+        }
+        
     }
 }

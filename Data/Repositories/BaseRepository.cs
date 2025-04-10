@@ -233,7 +233,6 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
                 throw new Exception("Cannot find existing entity");
 
             _dbSet.Remove(existingEntity);
-            await _context.SaveChangesAsync();
             return true;
         }
         catch (Exception ex)

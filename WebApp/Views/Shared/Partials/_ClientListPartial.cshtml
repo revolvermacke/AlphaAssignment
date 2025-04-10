@@ -17,8 +17,9 @@
                     active
                 </div>
             </td>
-            <td class="client-actions">
-                <i class="fa-solid fa-ellipsis" data-modal="true" data-target="#editClientModal"></i>
+            <td class="client-actions" onclick="toggleMenu('client-dropdown-@Model.Id')">
+                <i class="fa-solid fa-ellipsis"></i>
+                @await Html.PartialAsync("Partials/_EditOrDeleteClientPartial")
             </td>
         </tr>
     </tbody>

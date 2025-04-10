@@ -105,6 +105,24 @@ public class ProjectService(IProjectRepository repository, IProjectMemberReposit
         return ResponseResult<IEnumerable<Project>>.Ok(response);
     }
 
+    public async Task<IResponseResult> GetProjectByIdAsync(string id)
+    {
+        try
+        {
+            var entity = await _projectRepository.GetAsync(x => x.Id == id);
+            if (entity == null)
+                return ResponseResult.NotFound("Project");
+
+            var result = entity.MapTo<Project>();
+            return ResponseResult<Project>.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return ResponseResult.Error("Error retreiving project.");
+        }
+    }
+
     public async Task<IResponseResult<Project>> GetProjectAsync(string id)
     {
         try
@@ -132,4 +150,28 @@ public class ProjectService(IProjectRepository repository, IProjectMemberReposit
     //update
 
     //delete
+    public async Task<IResponseResult> DeleteProjectAsync(string id)
+    {
+        try
+        {
+            var entity = _projectRepository.GetAsync(x => x.Id == id);
+            if (entity == null)
+                return ResponseResult.NotFound("project wasnt found");
+
+            await _projectRepository.BeginTransactionAsync();
+            await _projectRepository.DeleteAsync(x => x.Id == id);
+            var saveResult = await _projectRepository.SaveAsync();
+            if (saveResult == false)
+                throw new Exception("Error saving changes.");
+
+            await _projectRepository.CommitTransactionAsync();
+            return ResponseResult.Ok();
+        }
+        catch (Exception ex)
+        {
+            await _projectRepository.RollbackTransactionAsync();
+            Debug.WriteLine(ex.Message);
+            return ResponseResult.Error($"Error deleting project :: {ex.Message}");
+        }
+    }
 }

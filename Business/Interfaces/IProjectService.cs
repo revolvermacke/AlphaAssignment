@@ -8,5 +8,7 @@ namespace Business.Interfaces
         Task<IResponseResult> CreateProjectAsync(ProjectRegistrationForm form);
         Task<IResponseResult<Project>> GetProjectAsync(string id);
         Task<IResponseResult<IEnumerable<Project>>> GetProjectsAsync();
+        Task<IResponseResult> GetProjectByIdAsync(string id);
+        Task<IResponseResult> DeleteProjectAsync(string id);
     }
 }
