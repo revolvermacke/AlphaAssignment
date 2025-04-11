@@ -1,0 +1,16 @@
+﻿@model Member
+
+<div id="member-dropdown-@Model.Id" class="Edit-member-container">
+    <div class="dropdown-body">
+        <nav class="dropdown-actions">
+            <a class="dropdown-action" data-modal="true" data-target="#editMemberModal">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Edit</span>
+            </a>
+            <a asp-controller="Members" asp-action="DeleteMember" asp-route-id="@Model.Id" class="dropdown-action _border-mid">
+                <i class="fa-regular fa-trash-can"></i>
+                <span>Remove</span>
+            </a>
+        </nav>
+    </div>
+</div>

@@ -10,11 +10,12 @@ using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ProjectService(IProjectRepository repository, IProjectMemberRepository projectMemberRepository, IProjectMemberService projectMemberService) : IProjectService
+public class ProjectService(IProjectRepository repository, IProjectMemberService projectMemberService, IClientService clientService) : IProjectService
 {
     private readonly IProjectRepository _projectRepository = repository;
-    private readonly IProjectMemberRepository _projectMemberRepository = projectMemberRepository;
     private readonly IProjectMemberService _projectMemberService = projectMemberService;
+    private readonly IClientService _clientService = clientService;
+
 
     // Using method below this one.
 
@@ -154,12 +155,10 @@ public class ProjectService(IProjectRepository repository, IProjectMemberReposit
     {
         try
         {
-            var entity = _projectRepository.GetAsync(x => x.Id == id);
-            if (entity == null)
-                return ResponseResult.NotFound("project wasnt found");
-
             await _projectRepository.BeginTransactionAsync();
+
             await _projectRepository.DeleteAsync(x => x.Id == id);
+
             var saveResult = await _projectRepository.SaveAsync();
             if (saveResult == false)
                 throw new Exception("Error saving changes.");

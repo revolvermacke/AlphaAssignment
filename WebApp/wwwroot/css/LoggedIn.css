@@ -778,6 +778,18 @@ table input[type="checkbox"] {
 
 
 /*Dropdown edit project, client and member*/
+.Edit-member-container {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    background-color: var(--white-100);
+    box-shadow: 2px 2px 2px 1px var(--gray-400);
+    display: none;
+    position: absolute;
+    z-index: 1;
+    margin-top: 1.5rem;
+}
+
 .Edit-client-container {
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -807,6 +819,7 @@ table input[type="checkbox"] {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    cursor: pointer;
 }
 .dropdown-action {
     display: flex;

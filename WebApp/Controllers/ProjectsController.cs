@@ -61,17 +61,25 @@ public class ProjectsController(IProjectService projectService, IClientService c
         return Ok(new { success = true });
     }
 
+    //update project method.
+
     [HttpGet]
     public async Task<IActionResult> DeleteProject(string id)
     {
         try
         {
-            var projectToDelete = await _projectService.GetProjectByIdAsync(id);
-            if (projectToDelete == null)
-                return NotFound(new { Message = "Project not found" });
+            // await 
+            // redirect
 
-            await _projectService.DeleteProjectAsync(id);
-            return RedirectToAction("Projects", "Admin");
+            var result = await _projectService.DeleteProjectAsync(id);
+
+            return result.StatusCode switch
+            {
+                200 => RedirectToAction("projects", "admin"),
+                _ => RedirectToAction("projects", "admin")
+            };
+            
+          
         }
         catch (Exception ex)
         {

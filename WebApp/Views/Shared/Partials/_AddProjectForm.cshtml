@@ -71,7 +71,7 @@
             <div class="forms-group">
                 <label asp-for="Members"></label>
                 <div class="field-group">
-                    <select asp-for="Members" class="form-select">
+                    <select multiple asp-for="Members" class="form-select">
                         <option selected disabled hidden>---- Select a status ----</option>
                         @foreach (var member in Model.MembersOnJob)
                         {

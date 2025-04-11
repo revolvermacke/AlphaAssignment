@@ -114,7 +114,6 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         try
         {
             var entities = await query.ToListAsync();
-            //return entities;
             var result = entities.Select(entity => entity.MapTo<TModel>());
             return result;
         }

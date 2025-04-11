@@ -2,7 +2,9 @@
 using Business.Models;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApp.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApp.Controllers;
 
@@ -53,5 +55,26 @@ public class ClientsController(IClientService clientService) : Controller
         //send data to clientService
 
         return Ok(new { success = true });
+    }
+
+    //update client method.
+
+    [HttpGet]
+    public async Task<IActionResult> DeleteClient(string id)
+    {
+        try
+        {
+            var result = await _clientService.RemoveClientAsync(id);
+            return result.StatusCode switch
+            {
+                200 => RedirectToAction("Clients", "Admin"),
+                _ => RedirectToAction("Clients", "Admin")
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500, new { Message = "An error occurred while deleting client" });
+        }
     }
 }

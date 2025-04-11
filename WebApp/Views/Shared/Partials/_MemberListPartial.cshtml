@@ -3,7 +3,8 @@
 
 <div class="member-card">
     <span class="member-actions">
-        <i class="fa-solid fa-pen-to-square" data-modal="true" data-target="#editMemberModal"></i>
+        <i class="fa-solid fa-pen-to-square" onclick="toggleMenu('member-dropdown-@Model.Id')"></i>
+        @await Html.PartialAsync("Partials/_EditOrDeleteMemberPartial")
     </span>
 
     <div class="content-center-card">

@@ -107,7 +107,7 @@ public class ClientService(IClientRepository clientRepository) : IClientService
             await _clientRepository.DeleteAsync(x => x.Id == id);
             bool saveResult = await _clientRepository.SaveAsync();
             if (saveResult == false)
-                throw new Exception("Error saving.");
+                throw new Exception("Error saving changes.");
 
             await _clientRepository.CommitTransactionAsync();
             return ResponseResult.Ok();

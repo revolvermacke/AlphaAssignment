@@ -2,6 +2,7 @@
 using Business.Models;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers;
@@ -54,6 +55,26 @@ public class MembersController(IMemberService memberService) : Controller
         //send data to clientService
 
         return Ok(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DeleteMember(string id)
+    {
+        try
+        {
+            var result = await _memberService.RemoveMemberAsync(id);
+
+            return result.StatusCode switch
+            {
+                200 => RedirectToAction("Members", "Admin"),
+                _ => RedirectToAction("Members", "Admin")
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500, new { message = "Error deleting member" });
+        }
     }
 
 }
