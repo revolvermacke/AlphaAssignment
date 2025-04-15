@@ -1,5 +1,6 @@
 ﻿@model Project
 
+
 <div class="projects-list">
     <div class="project-card">
         <div class="pc-top">
@@ -7,7 +8,7 @@
                 <img src="~/images/projectlogo.svg" alt="project logotype" />
                 <div>
                     <h6>@Model.ProjectName</h6>
-                    <span>@Model.Client</span>
+                    <span>@(Model.Client != null ? Model.Client.ClientName : "No Client...")</span>
                 </div>
             </div>
             <div>
@@ -26,46 +27,19 @@
             <span>
                 <i class="fa-regular fa-clock"></i>
                 10 weeks left
+                <strong>@Model.Status.StatusName</strong>
             </span>
 
             <div class="project-members">
-                <img src="~/images/avatar3.svg" alt="member avatar" />
-                @Model.ProjectMember
+                @foreach (var member in Model.ProjectMember.MemberName) 
+                {
+                 <img src="~/images/avatar3.svg" alt="member avatar" />
+                
+                 <span>@member</span>
+                }
+               
             </div>
         </div>
     </div>
-
-    @* <div class="project-card"> *@
-    @*     <div class="pc-top"> *@
-    @*         <div class="logo-header"> *@
-    @*             <img src="~/images/projectlogo.svg" alt="project logotype" /> *@
-    @*             <div> *@
-    @*                 <h6>ASP.NET Web App</h6> *@
-    @*                 <span>EPN Sverige Ab</span> *@
-    @*             </div> *@
-    @*         </div> *@
-    @*         <div> *@
-    @*             <span class="project-actions" data-modal="true" data-target="#editProjectModal"> *@
-    @*                 <i class="fa-solid fa-pen-to-square"></i> *@
-    @*             </span> *@
-    @*         </div> *@
-    @*     </div> *@
-
-    @*     <div> *@
-    @*         <span>You need to develop an web application on that simulates a admin portal.</span> *@
-    @*     </div> *@
-
-    @*     <div class="pc-bottom"> *@
-    @*         <span> *@
-    @*             <i class="fa-regular fa-clock"></i> *@
-    @*             10 weeks left *@
-    @*         </span> *@
-
-    @*         <div class="project-members"> *@
-    @*             <img src="~/images/avatar3.svg" alt="member avatar" /> *@
-    @*             <img src="~/images/avatar4.svg" alt="member avatar" /> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
 </div>
 

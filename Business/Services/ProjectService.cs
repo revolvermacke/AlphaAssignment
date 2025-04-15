@@ -17,42 +17,7 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
     private readonly IClientService _clientService = clientService;
 
 
-    // Using method below this one.
 
-    //public async Task<IResponseResult> CreateProjectAsync(ProjectRegistrationForm form)
-    //{
-    //    if (form == null)
-    //        return ResponseResult.BadRequest("Invalid form");
-
-    //    try
-    //    {
-    //        var projectExist = await _projectRepository.AlreadyExistsAsync(x => x.ProjectName == form.ProjectName);
-    //        if (projectExist)
-    //            return ResponseResult.Error("Project with same name already exists.");
-
-    //        await _projectRepository.BeginTransactionAsync();
-    //        var projectEntity = form.MapTo<ProjectEntity>();
-    //        var result = await _projectRepository.AddAsync(projectEntity);
-    //        var saveResult = await _projectRepository.SaveAsync();
-    //        if (result == null && saveResult == false)
-    //            throw new Exception("Error saving project");
-
-    //        foreach (var memberIds in form.ProjectMember.UserId)
-    //        {
-    //            var projectMemberEntity = ProjectMemberFactory.CreateEntity(projectEntity.Id, memberIds.ToString());
-    //            await _projectMemberRepository.AddAsync(projectMemberEntity);
-    //        }
-
-    //        return ResponseResult<ProjectEntity>.Ok(result);
-    //    }
-
-    //    catch (Exception ex)
-    //    {
-    //        await _projectRepository.RollbackTransactionAsync();
-    //        Debug.WriteLine(ex.Message);
-    //        return ResponseResult.Error(ex.Message);
-    //    }
-    //}
 
     public async Task<IResponseResult> CreateProjectAsync(ProjectRegistrationForm form)
     {
@@ -62,22 +27,17 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
         try
         {
             var projectExist = await _projectRepository.AlreadyExistsAsync(x => x.ProjectName == form.ProjectName);
-            if (projectExist == true)
+            if (projectExist)
                 return ResponseResult.Error("Project with that name already exist");
 
             await _projectRepository.BeginTransactionAsync();
-            var projectEntity = form.MapTo<ProjectEntity>();
+
+            var projectEntity = ProjectFactory.Create(form);
+
             var result = await _projectRepository.AddAsync(projectEntity);
             var saveResult = await _projectRepository.SaveAsync();
-            if (result == null && saveResult == false)
+            if (result == null || saveResult == false)
                 throw new Exception("Error saving project");
-
-            var currentProject = await _projectRepository.GetAsync(x => x.ProjectName == form.ProjectName);
-            foreach (string memberIds in form.MemberIds)
-            {
-                await _projectMemberService.CreateProjectMemberAsync(currentProject.Id, memberIds);
-
-            }
 
             await _projectRepository.CommitTransactionAsync();
             return ResponseResult.Ok();
@@ -90,10 +50,24 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
         }
     }
 
+    public async Task<IResponseResult> GetAllProjects()
+    {
+        try
+        {
+            var entities = await _projectRepository.GetAllAsync();
+            var projects = entities.Select(e => ProjectFactory.CreateModel(e));
+            return ResponseResult<IEnumerable<Project>>.Ok(projects);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return ResponseResult.Error("Error retrieving projects");
+        }
+    }
 
     public async Task<IResponseResult<IEnumerable<Project>>> GetProjectsAsync()
     {
-        var response = await _projectRepository.GetAllAsync
+        var projectEntities = await _projectRepository.GetAllAsync
             (
                 orderByDescending: true,
                 sortBy: s => s.Created,
@@ -103,7 +77,15 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
                 includes => includes.Client
             );
 
-        return ResponseResult<IEnumerable<Project>>.Ok(response);
+        if (projectEntities != null && projectEntities.Any())
+        { 
+            return ResponseResult<IEnumerable<Project>>.Ok(projectEntities.Select(ProjectFactory.CreateModel));
+
+        }
+
+        return ResponseResult<IEnumerable<Project>>.Error(null, "Something went wrong");
+        
+
     }
 
     public async Task<IResponseResult> GetProjectByIdAsync(string id)

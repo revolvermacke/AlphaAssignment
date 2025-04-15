@@ -37,6 +37,8 @@ public class ClientsController(IClientService clientService) : Controller
         return RedirectToAction("Clients", "Admin");
     }
 
+    //edit client not done.
+
     [HttpPost]
     public IActionResult EditClient(EditClientForm form)
     {
@@ -57,7 +59,6 @@ public class ClientsController(IClientService clientService) : Controller
         return Ok(new { success = true });
     }
 
-    //update client method.
 
     [HttpGet]
     public async Task<IActionResult> DeleteClient(string id)

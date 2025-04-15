@@ -8,7 +8,7 @@ public abstract class ResponseResult : IResponseResult
 
     public bool Success { get; protected set; }
     public int StatusCode { get; protected set; }
-    public string ErrorMessage { get; protected set; } = string.Empty;
+    public string? ErrorMessage { get; protected set; }
 
     public static ResponseResult Ok()
     {
@@ -46,6 +46,17 @@ public class ResponseResult<T> : ResponseResult, IResponseResult<T>
         {
             Success = true,
             StatusCode = 200,
+            Data = data
+        };
+    }
+
+    public static ResponseResult<T> Error(T? data, string? message = null)
+    {
+        return new ResponseResult<T>
+        {
+            Success = false,
+            StatusCode = 500,
+            ErrorMessage = message,
             Data = data
         };
     }

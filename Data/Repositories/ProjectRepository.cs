@@ -10,25 +10,25 @@ namespace Data.Repositories;
 
 public class ProjectRepository(DataContext context) : BaseRepository<ProjectEntity, Project>(context), IProjectRepository
 {
-    public override async Task<IEnumerable<ProjectEntity>> GetAllAsync()
-    {
-        try
-        {
-            var entities = await _context.Projects
-                .Include(x => x.Status)
-                .Include(x => x.Client)
-                .Include(x => x.ProjectMembers)
-                .ThenInclude(x => x.Member)
-                .ToListAsync();
+    //public override async Task<IEnumerable<ProjectEntity>> GetAllAsync()
+    //{
+    //    try
+    //    {
+    //        var entities = await _context.Projects
+    //            .Include(x => x.Status)
+    //            .Include(x => x.Client)
+    //            .Include(x => x.ProjectMembers)
+    //            .ThenInclude(x => x.Member)
+    //            .ToListAsync();
 
-            return entities;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error retrieving entities :: {ex.Message}");
-            return null!;
-        }
-    }
+    //        return entities;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Debug.WriteLine($"Error retrieving entities :: {ex.Message}");
+    //        return null!;
+    //    }
+    //}
 
     public override async Task<ProjectEntity> GetAsync(Expression<Func<ProjectEntity, bool>> expression)
     {

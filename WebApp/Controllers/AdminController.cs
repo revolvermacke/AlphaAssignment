@@ -55,21 +55,11 @@ public class AdminController(IMemberService memberService, IClientService client
         // creating the ViewModel
         var vm = new ProjectsViewModel
         {
-            Projects = new List<Project>(),
+            Projects = projects.Data ?? [],
             AddProjectForm = addProjectForm,
             EditProjectForm = new EditProjectForm()
         };
 
-        var projectsResponse = await _projectService.GetProjectsAsync();
-
-        if (!projectsResponse.Success)
-        {
-            vm.Projects = [];
-        }
-        else
-        {
-            vm.Projects = projectsResponse.Data!;
-        }
 
         return View(vm);
     }

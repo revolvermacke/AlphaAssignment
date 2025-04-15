@@ -95,7 +95,7 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         }
     }
 
-    public virtual async Task<IEnumerable<TModel>> GetAllAsync(bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes)
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync(bool orderByDescending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = _dbSet;
 
@@ -114,8 +114,8 @@ public abstract class BaseRepository<TEntity, TModel>(DataContext context) : IBa
         try
         {
             var entities = await query.ToListAsync();
-            var result = entities.Select(entity => entity.MapTo<TModel>());
-            return result;
+           // var result = entities.Select(entity => entity.MapTo<TModel>());
+            return entities;
         }
         catch (Exception ex)
         {
