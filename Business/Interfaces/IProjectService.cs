@@ -11,5 +11,7 @@ namespace Business.Interfaces
         Task<IResponseResult<IEnumerable<Project>>> GetProjectsAsync();
         Task<IResponseResult> GetProjectByIdAsync(string id);
         Task<IResponseResult> DeleteProjectAsync(string id);
+
+        Task<IResponseResult> UpdateProjectAsync(ProjectRegistrationForm updateForm, string id);
     }
 }

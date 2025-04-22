@@ -5,7 +5,7 @@ namespace Business.Models;
 
 public class EditProjectForm
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [Display(Name = "Client Image", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
@@ -19,7 +19,7 @@ public class EditProjectForm
     [Display(Name = "Client Name", Prompt = "Enter client name")]
     [DataType(DataType.Text)]
     [Required(ErrorMessage = "Required")]
-    public string ClientName { get; set; } = null!;
+    public string ClientId { get; set; } = null!;
 
     [Display(Name = "Description", Prompt = "Enter a description")]
     [DataType(DataType.Text)]
@@ -42,5 +42,9 @@ public class EditProjectForm
 
     [Display(Name = "Price", Prompt = "Enter a price")]
     [DataType(DataType.Text)]
-    public decimal price { get; set; }
+    public decimal Budget { get; set; }
+
+    [Display(Name = "Status")]
+    [DataType(DataType.Text)]
+    public int StatusId { get; set; }
 }

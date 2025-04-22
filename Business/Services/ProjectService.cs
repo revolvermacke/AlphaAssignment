@@ -96,8 +96,8 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
             if (entity == null)
                 return ResponseResult.NotFound("Project");
 
-            var result = entity.MapTo<Project>();
-            return ResponseResult<Project>.Ok(result);
+            var model = ProjectFactory.CreateModel(entity);
+            return ResponseResult<Project>.Ok(model);
         }
         catch (Exception ex)
         {
@@ -131,6 +131,43 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
     }
 
     //update
+    public async Task<IResponseResult> UpdateProjectAsync(ProjectRegistrationForm updateForm, string id)
+    {
+        if (updateForm == null)
+            return ResponseResult.BadRequest("Invalid form");
+
+        try
+        {
+            var projectToUpdate = await _projectRepository.GetAsync(x => x.Id == id);
+            if (projectToUpdate == null)
+                return ResponseResult.NotFound("Project not found");
+
+            await _projectRepository.BeginTransactionAsync();
+            ProjectFactory.UpdateEntity(projectToUpdate, updateForm);
+            await _projectRepository.UpdateAsync(x => x.Id == id, projectToUpdate);
+            var saveResult = await _projectRepository.SaveAsync();
+            if (saveResult == false)
+                throw new Exception("Error saving updated project");
+
+            var existingMemberIds = projectToUpdate.ProjectMembers
+                .Select(junctionTable => junctionTable.UserId)
+                .ToList();
+
+            var projectMembersUpdate = _projectMemberService.UpdateProjectServiceAsync(
+                id, existingMemberIds, updateForm.MemberIds);
+            if (projectMembersUpdate.Result.Success == false)
+                throw new Exception("Error updating ProjectServices");
+
+            await _projectRepository.CommitTransactionAsync();
+            return ResponseResult.Ok();
+        }
+        catch (Exception ex)
+        {
+            await _projectRepository.RollbackTransactionAsync();
+            Debug.WriteLine(ex.Message);
+            return ResponseResult.Error($"Error updating project :: {ex.Message}");
+        }
+    }
 
     //delete
     public async Task<IResponseResult> DeleteProjectAsync(string id)

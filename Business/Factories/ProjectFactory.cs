@@ -69,5 +69,16 @@ public class ProjectFactory
 
         return project;
     }
-    
+
+    public static void UpdateEntity(ProjectEntity existingProject, ProjectRegistrationForm updateForm)
+    {
+        existingProject.ProjectName = updateForm.ProjectName;
+        existingProject.Description = updateForm.Description;
+        existingProject.StartDate = DateOnly.FromDateTime(updateForm.StartDate);
+        existingProject.EndDate = DateOnly.FromDateTime(updateForm.EndDate);
+        existingProject.StatusId = updateForm.StatusId;
+        existingProject.ClientId = updateForm.ClientId;
+        existingProject.Budget = updateForm.Budget;
+    }
+
 }

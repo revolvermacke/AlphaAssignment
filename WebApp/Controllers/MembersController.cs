@@ -1,7 +1,10 @@
 ﻿using Business.Interfaces;
 using Business.Models;
 using Domain.Dtos;
+using Domain.Extensions;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Diagnostics;
 using WebApp.ViewModels;
 
@@ -38,7 +41,7 @@ public class MembersController(IMemberService memberService) : Controller
     }
 
     [HttpPost]
-    public IActionResult EditMember(EditMemberForm form)
+    public async Task<IActionResult> EditMember(EditMemberForm form)
     {
         if (!ModelState.IsValid)
         {
@@ -52,9 +55,22 @@ public class MembersController(IMemberService memberService) : Controller
             return BadRequest(new { success = false, errors });
         }
 
-        //send data to clientService
+        var dto = form.MapTo<MemberRegistrationForm>();
+        var updateResult = await _memberService.UpdateMemberAsync(form.Id, dto);
 
-        return Ok(new { success = true });
+        return updateResult.Success
+            ? RedirectToAction("Members", "Admin")
+            : StatusCode(updateResult.StatusCode, new { success = false, message = updateResult.ErrorMessage });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetMember(string id)
+    {
+        var result = await _memberService.GetMemberByIdAsync(id);
+        
+        var member = ((ResponseResult<Member>)result).Data;
+
+        return Json(member);
     }
 
     [HttpGet]

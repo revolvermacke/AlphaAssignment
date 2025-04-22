@@ -1,5 +1,13 @@
 ﻿@model EditProjectForm
 
+@{
+    var statuses = await statusService.GetStatusesAsync();
+
+    var clients = await clientService.GetClientsAsync();
+
+    var members = await memberService.GetAllMembers();
+}
+
 <div id="editProjectModal" class="modal-container">
     <div class="content-modal">
 
@@ -27,10 +35,18 @@
             </div>
 
             <div class="forms-group">
-                <label asp-for="ClientName"></label>
+                <label asp-for="ClientId"></label>
                 <div class="field-group">
-                    <input asp-for="ClientName" />
-                    <span asp-validation-for="ClientName"></span>
+                    <select asp-for="ClientId" class="form-select">
+                        <option selected disabled hidden>---- Select a client ----</option>
+                        @foreach (var client in clients)
+                        {
+                            <option value="@client.Id">@client.ClientName</option>
+
+                        }
+
+                    </select>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
                 </div>
             </div>
 
@@ -61,16 +77,40 @@
             <div class="forms-group">
                 <label asp-for="Members"></label>
                 <div class="field-group">
-                    <input asp-for="Members" />
-                    <span asp-validation-for="Members"></span>
+                    <select asp-for="Members" class="form-select">
+                        <option selected disabled hidden>---- Select a member ----</option>
+                        @foreach (var member in members)
+                        {
+                            <option value="@member.Id">@member.FirstName @member.LastName</option>
+
+                        }
+
+                    </select>
+                    <span asp-validation-for="Members" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="forms-group">
-                <label asp-for="price"></label>
+                <label asp-for="StatusId"></label>
                 <div class="field-group">
-                    <input asp-for="price" />
-                    <span asp-validation-for="price"></span>
+                    <select asp-for="StatusId" class="form-select">
+                        <option selected disabled hidden>---- Select a status ----</option>
+                        @foreach (var status in statuses)
+                        {
+                            <option value="@status.Id">@status.StatusName</option>
+
+                        }
+
+                    </select>
+                    <span asp-validation-for="StatusId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="forms-group">
+                <label asp-for="Budget"></label>
+                <div class="field-group">
+                    <input asp-for="Budget" />
+                    <span asp-validation-for="Budget"></span>
                 </div>
             </div>
 

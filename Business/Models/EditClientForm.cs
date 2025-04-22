@@ -5,7 +5,7 @@ namespace Business.Models;
 
 public class EditClientForm
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [Display(Name = "Client Image", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
@@ -28,5 +28,5 @@ public class EditClientForm
 
     [Display(Name = "Phone", Prompt = "Enter phone number")]
     [DataType(DataType.PhoneNumber)]
-    public string? Phone { get; set; }
+    public string? PhoneNumber { get; set; }
 }

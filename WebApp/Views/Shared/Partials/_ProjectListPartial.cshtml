@@ -2,7 +2,7 @@
 
 
 <div class="projects-list">
-    <div class="project-card">
+    <div class="project-card" data-status="@Model.Status.StatusName.ToUpper()">
         <div class="pc-top">
             <div class="logo-header">
                 <img src="~/images/projectlogo.svg" alt="project logotype" />
@@ -26,8 +26,7 @@
         <div class="pc-bottom">
             <span>
                 <i class="fa-regular fa-clock"></i>
-                10 weeks left
-                <strong>@Model.Status.StatusName</strong>
+                <strong class="timeLeft">@Model.Status.StatusName</strong>
             </span>
 
             <div class="project-members">

@@ -18,6 +18,18 @@
         </button>
     </header>
 
+    <div class="filter-projects">
+        <button class="filter-projects-by">
+            ALL (@Model.Projects.Count())
+        </button>
+        <button class="filter-projects-by">
+            STARTED (@Model.Projects.Count(p => p.Status.StatusName == "Started"))
+        </button>
+        <button class="filter-projects-by">
+            COMPLETED (@Model.Projects.Count(p => p.Status.StatusName == "Completed"))
+        </button>
+    </div>
+
 
     <div class="projects-list">
         @if (Model.Projects != null && Model.Projects.Any())

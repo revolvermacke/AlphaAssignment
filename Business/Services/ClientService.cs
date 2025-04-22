@@ -1,4 +1,5 @@
-﻿using Business.Interfaces;
+﻿using Business.Factories;
+using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Interfaces;
@@ -75,7 +76,8 @@ public class ClientService(IClientRepository clientRepository) : IClientService
                 return ResponseResult.NotFound("Client not found");
 
             await _clientRepository.BeginTransactionAsync();
-            entityToUpdate.MapTo<ClientEntity>();
+
+            ClientFactory.UpdateClientEntity(entityToUpdate, updateForm);
 
             await _clientRepository.UpdateAsync(x => x.Id == id, entityToUpdate);
 

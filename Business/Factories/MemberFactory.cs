@@ -31,4 +31,13 @@ public class MemberFactory
         City = entity.Address?.City,
         PostalCode = entity.Address?.PostalCode,
     };
+
+    public static void UpdateMemberEntity(MemberEntity currentEntity, MemberRegistrationForm updateForm)
+    {
+        currentEntity.Email = updateForm.Email;
+        currentEntity.FirstName = updateForm.FirstName;
+        currentEntity.LastName = updateForm.LastName;
+        currentEntity.PhoneNumber = updateForm.PhoneNumber;
+        currentEntity.JobTitle = updateForm.JobTitle;
+    }
 }

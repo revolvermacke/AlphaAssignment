@@ -4,7 +4,7 @@
 <div class="member-card">
     <span class="member-actions">
         <i class="fa-solid fa-pen-to-square" onclick="toggleMenu('member-dropdown-@Model.Id')"></i>
-        @await Html.PartialAsync("Partials/_EditOrDeleteMemberPartial")
+        @await Html.PartialAsync("Partials/_EditOrDeleteMemberPartial", Model)
     </span>
 
     <div class="content-center-card">

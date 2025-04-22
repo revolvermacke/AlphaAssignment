@@ -30,7 +30,7 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
         return ResponseResult<ProjectMemberJunctionEntity>.Ok(projectMember);
     }
 
-    public async Task<IResponseResult> UpdateProjectServiceAsync(int projectId, List<string> currentMemberIds, List<string> newMemberIds)
+    public async Task<IResponseResult> UpdateProjectServiceAsync(string projectId, List<string> currentMemberIds, List<string> newMemberIds)
     {
         if (currentMemberIds == null)
             return ResponseResult.BadRequest("Invalid input");

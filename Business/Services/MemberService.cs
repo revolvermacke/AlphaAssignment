@@ -107,7 +107,7 @@ public class MemberService(UserManager<MemberEntity> userManager, IMemberReposit
                 return ResponseResult.NotFound("Member not found");
 
             await _memberRepository.BeginTransactionAsync();
-            entityToUpdate.MapTo<MemberEntity>();
+            MemberFactory.UpdateMemberEntity(entityToUpdate, updateForm);
 
             await _memberRepository.UpdateAsync(x => x.Id == id, entityToUpdate);
 

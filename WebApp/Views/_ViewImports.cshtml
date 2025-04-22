@@ -1,4 +1,9 @@
-﻿@using WebApp
+﻿@inject IClientService clientService
+@inject IProjectService projectService
+@inject IStatusService statusService
+@inject IMemberService memberService
+@using Business.Interfaces
+@using WebApp
 @using Business.Models
 @using Domain.Models
 @using WebApp.ViewModels;

@@ -79,7 +79,7 @@
     grid-template-columns: 270px 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas: "logo top" "side main";
-    height: 100dvh; 
+    height: 100dvh;
     .logotype
 {
     grid-area: logo;
@@ -196,7 +196,6 @@
 .header-seperate {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
 }
 
 .btn {
@@ -731,6 +730,10 @@ table input[type="checkbox"] {
          }
 }
 
+.timeLeft {
+
+}
+
 .project-members {
     display: flex;
     align-items: center;
@@ -741,8 +744,38 @@ table input[type="checkbox"] {
     cursor: pointer;
 }
 
-/*profile dropdown for signout*/
+.filter-projects {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+.filter-projects-by {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+    text-decoration: none;
+    margin-bottom: 0.7rem;
+    &:hover {
+                color: var(--blue-accent);
+                text-decoration: underline;
+            }
 
+    &:active {
+        color: var(--blue-accent);
+    }
+
+    &.active {
+        color: var(--blue-accent);
+        text-decoration: underline;
+    }
+}
+/*profile dropdown for signout*/
 .profile-dropdown {
     position: absolute;
     top: 50px;

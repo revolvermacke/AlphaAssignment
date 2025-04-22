@@ -19,7 +19,7 @@
             </td>
             <td class="client-actions" onclick="toggleMenu('client-dropdown-@Model.Id')">
                 <i class="fa-solid fa-ellipsis"></i>
-                @await Html.PartialAsync("Partials/_EditOrDeleteClientPartial")
+                @await Html.PartialAsync("Partials/_EditOrDeleteClientPartial", Model)
             </td>
         </tr>
     </tbody>

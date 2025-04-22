@@ -1,6 +1,8 @@
 ﻿using Business.Interfaces;
 using Business.Models;
 using Domain.Dtos;
+using Domain.Extensions;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
@@ -42,7 +44,7 @@ public class ProjectsController(IProjectService projectService, IClientService c
     }
 
     [HttpPost]
-    public IActionResult EditProject(EditProjectForm form)
+    public async Task<IActionResult> EditProject(EditProjectForm form)
     {
         if (!ModelState.IsValid)
         {
@@ -56,9 +58,22 @@ public class ProjectsController(IProjectService projectService, IClientService c
             return BadRequest(new { success = false, errors });
         }
 
-        //send data to clientService
+        var dto = form.MapTo<ProjectRegistrationForm>();
+        var updateResult = await _projectService.UpdateProjectAsync(dto, form.Id);
 
-        return Ok(new { success = true });
+        return updateResult.Success
+            ? RedirectToAction("Projects", "Admin")
+            : StatusCode(updateResult.StatusCode, new { success = false, message = updateResult.ErrorMessage });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProject(string id)
+    {
+        var result = await _projectService.GetProjectByIdAsync(id);
+
+        var project = ((ResponseResult<Project>)result).Data;
+
+        return Json(project);
     }
 
     //update project method.

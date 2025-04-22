@@ -5,7 +5,8 @@ namespace Business.Models;
 
 public class EditMemberForm
 {
-    public int Id { get; set; }
+    [Display(Name = "Id")]
+    public string Id { get; set; } = null!;
 
     [Display(Name = "Member Image", Prompt = "Select a image")]
     [DataType(DataType.Upload)]
@@ -32,11 +33,19 @@ public class EditMemberForm
     [Required(ErrorMessage = "Required")]
     public string JobTitle { get; set; } = null!;
 
-    [Display(Name = "Address", Prompt = "Enter address")]
-    [DataType(DataType.Text)]
-    public string? Address { get; set; }
+    [Display(Name = "Street Name", Prompt = "Enter street name")]
+    [Required(ErrorMessage = "Required")]
+    public string StreetName { get; set; } = null!;
 
-    [Display(Name = "Phone", Prompt = "Enter phone number")]
+    [Display(Name = "Postal Code", Prompt = "Enter postal code")]
+    [Required(ErrorMessage = "Required")]
+    public string PostalCode { get; set; } = null!;
+
+    [Display(Name = "City", Prompt = "Enter city")]
+    [Required(ErrorMessage = "Required")]
+    public string City { get; set; } = null!;
+
+    [Display(Name = "PhoneNumber", Prompt = "Enter phone number")]
     [DataType(DataType.PhoneNumber)]
-    public string? Phone { get; set; }
+    public string? PhoneNumber { get; set; }
 }

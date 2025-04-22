@@ -1,6 +1,9 @@
 ﻿using Business.Interfaces;
 using Business.Models;
+using Business.Services;
 using Domain.Dtos;
+using Domain.Extensions;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApp.ViewModels;
@@ -37,10 +40,9 @@ public class ClientsController(IClientService clientService) : Controller
         return RedirectToAction("Clients", "Admin");
     }
 
-    //edit client not done.
 
     [HttpPost]
-    public IActionResult EditClient(EditClientForm form)
+    public async Task<IActionResult> EditClient(EditClientForm form)
     {
         if (!ModelState.IsValid)
         {
@@ -54,9 +56,22 @@ public class ClientsController(IClientService clientService) : Controller
             return BadRequest(new { success = false, errors });
         }
 
-        //send data to clientService
+        var dto = form.MapTo<ClientRegistrationForm>();
+        var updateResult = await _clientService.UpdateClientAsync(form.Id, dto);
 
-        return Ok(new { success = true });
+        return updateResult.Success
+            ? RedirectToAction("Clients", "Admin")
+            : StatusCode(updateResult.StatusCode, new { success = false, message = updateResult.ErrorMessage });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetClient(string id)
+    {
+        var result = await _clientService.GetClientByIdAsync(id);
+
+        var client = ((ResponseResult<Client>)result).Data;
+
+        return Json(client);
     }
 
 
