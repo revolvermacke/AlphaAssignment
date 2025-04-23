@@ -1,5 +1,7 @@
 ﻿@model Project
-
+@{
+    ViewBag.Description = Model.Description;
+}
 
 <div class="projects-list">
     <div class="project-card" data-status="@Model.Status.StatusName.ToUpper()">
@@ -20,14 +22,16 @@
         </div>
 
         <div>
-            <span>@Model.Description</span>
+            <span>@Html.Raw(ViewBag.Description)</span>
         </div>
 
-        <div class="pc-bottom">
-            <span>
+        <div class="pc-bottom deadline">
+            <div class="timeLeft">
                 <i class="fa-regular fa-clock"></i>
-                <strong class="timeLeft">@Model.Status.StatusName</strong>
-            </span>
+                <span class="_time-left" data-time-left="@Model.EndDate.ToString("yyyy-MM-dd")">
+                    @Model.EndDate.ToShortDateString()
+                </span>
+            </div>
 
             <div class="project-members">
                 @foreach (var member in Model.ProjectMember.MemberName) 

@@ -33,6 +33,8 @@ public class ProjectsController(IProjectService projectService, IClientService c
             return BadRequest(new { success = false, errors });
         }
 
+        ViewBag.Description = form.Description;
+
         ProjectRegistrationForm dto = form;
 
         var result = await _projectService.CreateProjectAsync(dto);
@@ -76,15 +78,11 @@ public class ProjectsController(IProjectService projectService, IClientService c
         return Json(project);
     }
 
-    //update project method.
-
     [HttpGet]
     public async Task<IActionResult> DeleteProject(string id)
     {
         try
         {
-            // await 
-            // redirect
 
             var result = await _projectService.DeleteProjectAsync(id);
 

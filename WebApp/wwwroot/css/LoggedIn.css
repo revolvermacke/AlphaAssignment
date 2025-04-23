@@ -436,8 +436,46 @@ table input[type="checkbox"] {
     width: 15px;
 }
 
-/*image-preview*/
+/*wysiwyg text-editor*/
+#Description {
+    display: none;
+}
 
+.edit-project #Description {
+    display: flex;
+}
+
+#project-wysiwyg-editor {
+    width: 100%;
+    font-size: 1em;
+    font-weight: 400;
+    border: none;
+    border-radius: 13px;
+    min-height: 150px;
+    transition: border-color 0.1s ease-in-out;
+    z-index: 0;
+    outline: none;
+}
+.ql-editor {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+    .ql-editor:focus {
+        border: 1px solid var(--focus-border);
+        border-radius: 13px;
+    }
+
+#project-wysiwyg-toolbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0 0 13px 13px;
+    border: none;
+    border-top: 1px solid var(--border);
+}
+
+/*image-preview*/
 .image-previewer {
     border: 2px dashed var(--border);
     height: 150px;
@@ -717,17 +755,29 @@ table input[type="checkbox"] {
     
 }
 
-.pc-bottom{
+.pc-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 4rem;
 
-    span {
+    .timeLeft {
              padding: 0.5rem 1rem;
              border-radius: 14px;
              background-color: var(--gray-300);
          }
+}
+
+.pc-bottom.near > .timeLeft {
+    background-color: var(--red-tint);
+}
+
+    .pc-bottom.near > .timeLeft > i {
+        color: var(--red-dark);
+    }
+
+.pc-bottom.near > .timeLeft > span {
+    color: var(--red-dark);
 }
 
 .timeLeft {
@@ -793,6 +843,13 @@ table input[type="checkbox"] {
     flex-direction: column;
     gap: 0.7rem;
     cursor: default
+
+}
+
+.avatar-in-profile {
+    height: 40px;
+    width: 40px;
+    
 }
 
 .acc-email {
@@ -872,3 +929,4 @@ table input[type="checkbox"] {
     border-top: 1px solid var(--border);
     padding-top: 0.9rem;
 }
+

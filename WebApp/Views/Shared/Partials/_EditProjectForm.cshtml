@@ -52,13 +52,40 @@
                 </div>
             </div>
 
-            <div class="forms-group">
+            <div class="forms-group edit-project">
                 <label asp-for="Description"></label>
                 <div class="field-group">
                     <input asp-for="Description" />
                     <span asp-validation-for="Description"></span>
                 </div>
             </div>
+
+            @* <div class="forms-group wysiwyg-container"> *@
+            @*     <label asp-for="Description"></label> *@
+            @*     <div class="wysiwyg"> *@
+            @*         <textarea class="wysiwyg-textarea" asp-for="Description"></textarea> *@
+            @*         <div id="project-wysiwyg-editor" class="wysiwyg-editor"></div> *@
+            @*         <div id="project-wysiwyg-toolbar" class="wysiwyg-toolbar"> *@
+            @*             <span class="ql-formats"> *@
+            @*                 <button class="ql-bold"></button> *@
+            @*                 <button class="ql-italic"></button> *@
+            @*                 <button class="ql-underline"></button> *@
+            @*             </span> *@
+            @*             <span class="ql-formats"> *@
+            @*                 <button class="ql-align" value=""></button> *@
+            @*                 <button class="ql-align" value="center"></button> *@
+            @*                 <button class="ql-align" value="right"></button> *@
+            @*             </span> *@
+            @*             <span class="ql-formats"> *@
+            @*                 <button class="ql-list" value="bullet"></button> *@
+            @*                 <button class="ql-list" value="ordered"></button> *@
+            @*             </span> *@
+            @*             <span class="ql-formats"> *@
+            @*                 <button class="ql-link"></button> *@
+            @*             </span> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
 
             <div class="forms-group">
                 <label asp-for="StartDate"></label>

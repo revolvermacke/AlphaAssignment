@@ -25,7 +25,6 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
 
         await _projectMemberRepository.AddAsync(projectMember);
         await _projectMemberRepository.SaveAsync();
-        // fixa resulthantering
 
         return ResponseResult<ProjectMemberJunctionEntity>.Ok(projectMember);
     }

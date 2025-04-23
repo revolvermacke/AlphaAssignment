@@ -104,6 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     //toggle btn for notifications
+    document.querySelectorAll('.project-actions').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            toggleMenu(btn.getAttribute('data-menu'));
+        });
+    });
 })
 
 function clearErrorMessages(form) {
@@ -336,3 +342,74 @@ document.addEventListener('DOMContentLoaded', () => {
         filterButtons[0].click();
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.wysiwyg-container').forEach(container => {
+        const editorElem = container.querySelector('.wysiwyg-editor');
+        const toolbarElem = container.querySelector('.wysiwyg-toolbar');
+        const textarea = container.querySelector('.wysiwyg-textarea');
+
+        // Initiera Quill på varje editor-element
+        const quill = new Quill(editorElem, {
+            modules: {
+                syntax: true,
+                toolbar: toolbarElem
+            },
+            placeholder: 'Type something',
+            theme: 'snow'
+        });
+
+        // Sätt initialt innehåll från textarea
+        if (textarea.value) {
+            quill.root.innerHTML = textarea.value;
+        }
+
+        // Skriv tillbaka till textarea vid varje textändring
+        quill.on('text-change', () => {
+            textarea.value = quill.root.innerHTML;
+        });
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    updateDeadline();
+
+});
+function updateDeadline() {
+    const now = new Date();
+
+    document.querySelectorAll('._time-left').forEach(el => {
+        const end = new Date(el.dataset.timeLeft);
+        const diffMs = end - now;
+        const parent = el.closest('.deadline');
+
+        if (diffMs < 0) {
+            el.textContent = 'Expired';
+            parent?.classList.remove('near');
+            return;
+        }
+
+        el.textContent = formatFuture(diffMs);
+
+        if (diffMs < 7 * 24 * 60 * 60 * 1000) {
+            parent?.classList.add('near');
+        } else {
+            parent?.classList.remove('near');
+        }
+    });
+}
+
+function formatFuture(diffMs) {
+    const sec = Math.floor(diffMs / 1000);
+    const min = Math.floor(sec / 60);
+    const hrs = Math.floor(min / 60);
+    const days = Math.floor(hrs / 24);
+    const weeks = Math.floor(days / 7);
+
+    if (days < 2) return '1 day left';
+    if (days < 7) return days + ' days left';
+    return weeks + ' weeks left';
+};

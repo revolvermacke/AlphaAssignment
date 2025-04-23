@@ -38,8 +38,7 @@ public class EditMemberForm
     public string StreetName { get; set; } = null!;
 
     [Display(Name = "Postal Code", Prompt = "Enter postal code")]
-    [Required(ErrorMessage = "Required")]
-    public string PostalCode { get; set; } = null!;
+    public string? PostalCode { get; set; }
 
     [Display(Name = "City", Prompt = "Enter city")]
     [Required(ErrorMessage = "Required")]
