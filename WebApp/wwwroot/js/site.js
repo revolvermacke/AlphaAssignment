@@ -206,11 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.querySelector('#editMemberModal input[name="StreetName"]').value = data.streetName || '';
                     document.querySelector('#editMemberModal input[name="City"]').value = data.city || '';
                     document.querySelector('#editMemberModal input[name="PostalCode"]').value = data.postalCode || '';
+                    document.querySelector('#editMemberModal input[name="Id"]').value = data.id || '';
 
-                    var idField = document.querySelector('#editMemberModal input[name="Id"]');
-                    if (idField) {
-                        idField.value = data.id;
-                    }
                
 
 
@@ -245,11 +242,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.querySelector('#editClientModal input[name="Email"]').value = data.email || '';
                     document.querySelector('#editClientModal input[name="Location"]').value = data.location || '';
                     document.querySelector('#editClientModal input[name="PhoneNumber"]').value = data.phoneNumber || '';
+                    document.querySelector('#editClientModal input[name="Id"]').value = data.id || '';
 
-                    var idField = document.querySelector('#editClientModal input[name="Id"]');
-                    if (idField) {
-                        idField.value = data.id;
-                    }
 
 
 
@@ -289,11 +283,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.querySelector('#editProjectModal input[name="StartDate"]').value = data.startDate || '';
                     document.querySelector('#editProjectModal input[name="EndDate"]').value = data.endDate || '';
                     document.querySelector('#editProjectModal select[name="StatusId"]').value = data.status.statusId || '';
+                    document.querySelector('#editProjectModal input[name="Id"]').value = data.id || '';
 
-                    var idField = document.querySelector('#editClientModal input[name="Id"]');
-                    if (idField) {
-                        idField.value = data.id;
-                    }
 
 
 

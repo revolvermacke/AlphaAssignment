@@ -24,7 +24,7 @@ public class ProjectFactory
             Created = DateTime.Now,
         };
 
-        project.ProjectMembers = form.MemberIds
+        project.ProjectMembers = form.Members
             .Select(memberId => new ProjectMemberJunctionEntity
             {
                 ProjectId = project.Id,

@@ -30,10 +30,8 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
         return ResponseResult<ProjectMemberJunctionEntity>.Ok(projectMember);
     }
 
-    public async Task<IResponseResult> UpdateProjectServiceAsync(string projectId, List<string> currentMemberIds, List<string> newMemberIds)
+    public async Task<IResponseResult> UpdateProjectMemberAsync(string projectId, List<string> currentMemberIds, List<string> newMemberIds)
     {
-        if (currentMemberIds == null)
-            return ResponseResult.BadRequest("Invalid input");
 
         try
         {
@@ -45,14 +43,14 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
 
             foreach (string memberId in remove)
             {
-                var deleteResponse = DeleteProjectServiceAsync(projectId.ToString(), memberId);
-                if (deleteResponse.Result.Success == false)
-                    throw new Exception("Error deleting projectservice.");
+                var deleteResponse = await DeleteProjectMemberAsync(projectId, memberId);
+                if (deleteResponse.Success == false)
+                    throw new Exception($"Error deleting projectmember. :: {deleteResponse.ErrorMessage}");
             }
 
-            foreach (var serviceId in add)
+            foreach (var memberId in add)
             {
-                var newProjectServiceEntity = ProjectMemberFactory.CreateEntity(projectId.ToString(), serviceId);
+                var newProjectServiceEntity = ProjectMemberFactory.CreateEntity(projectId.ToString(), memberId);
                 await _projectMemberRepository.AddAsync(newProjectServiceEntity);
                 var addSaveResult = await _projectMemberRepository.SaveAsync();
                 if (addSaveResult == false)
@@ -64,16 +62,16 @@ public class ProjectMemberService(IProjectMemberRepository projectMemberReposito
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return ResponseResult.Error($"Error deleting projectserive :: {ex.Message}");
+            return ResponseResult.Error($"Error updating projectmember :: {ex.Message}");
         }
     }
 
-    public async Task<IResponseResult> DeleteProjectServiceAsync(string projectId, string memberId)
+    public async Task<IResponseResult> DeleteProjectMemberAsync(string projectId, string memberId)
     {
         try
         {
-            var projectServiceJunctionEntity = await _projectMemberRepository.GetAsync(x => x.ProjectId == projectId && x.UserId == memberId);
-            if (projectServiceJunctionEntity == null)
+            var projectMemberEntity = await _projectMemberRepository.GetAsync(x => x.ProjectId == projectId && x.UserId == memberId);
+            if (projectMemberEntity == null)
                 return ResponseResult.NotFound("Entity not found");
 
             await _projectMemberRepository.DeleteAsync(x => x.ProjectId == projectId && x.UserId == memberId);

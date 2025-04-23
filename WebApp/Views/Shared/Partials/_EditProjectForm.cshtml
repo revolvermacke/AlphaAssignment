@@ -16,7 +16,9 @@
             <button type="button" class="btn-close" data-close="true"></button>
         </div>
 
-        <form novalidate method="post" asp-action="AddProject" asp-controller="User">
+        <form novalidate method="post" asp-action="EditProject" asp-controller="Projects">
+
+            <input asp-for="Id" readonly type="hidden" />
 
             <div class="image-previewer square">
                 <img src="" class="image-preview" />

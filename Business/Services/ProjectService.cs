@@ -152,11 +152,12 @@ public class ProjectService(IProjectRepository repository, IProjectMemberService
             var existingMemberIds = projectToUpdate.ProjectMembers
                 .Select(junctionTable => junctionTable.UserId)
                 .ToList();
-
-            var projectMembersUpdate = _projectMemberService.UpdateProjectServiceAsync(
-                id, existingMemberIds, updateForm.MemberIds);
-            if (projectMembersUpdate.Result.Success == false)
-                throw new Exception("Error updating ProjectServices");
+            if (updateForm.Members != null && existingMemberIds != null)
+            {
+                var projectMembersUpdate = await _projectMemberService.UpdateProjectMemberAsync(id, existingMemberIds, updateForm.Members);
+                if (projectMembersUpdate.Success == false)
+                    throw new Exception("Error updating ProjectServices");
+            }   
 
             await _projectRepository.CommitTransactionAsync();
             return ResponseResult.Ok();

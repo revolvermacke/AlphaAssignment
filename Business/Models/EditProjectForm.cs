@@ -38,7 +38,7 @@ public class EditProjectForm
 
     [Display(Name = "Members", Prompt = "Choose members")]
     [DataType(DataType.Text)]
-    public string Members { get; set; } = null!;
+    public List<string> Members { get; set; } = [];
 
     [Display(Name = "Price", Prompt = "Enter a price")]
     [DataType(DataType.Text)]

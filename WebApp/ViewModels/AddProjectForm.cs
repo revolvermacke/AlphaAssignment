@@ -62,7 +62,7 @@ public class AddProjectForm
                 EndDate = model.EndDate,
                 Budget = model.price,
                 StatusId = model.Status,
-                MemberIds = model.Members
+                Members = model.Members
             };
     }
 
