@@ -10,6 +10,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace Business.Services;
@@ -109,11 +110,39 @@ public class MemberService(UserManager<MemberEntity> userManager, IMemberReposit
             await _memberRepository.BeginTransactionAsync();
             MemberFactory.UpdateMemberEntity(entityToUpdate, updateForm);
 
-            await _memberRepository.UpdateAsync(x => x.Id == id, entityToUpdate);
+            var updateResult = await _userManager.UpdateAsync(entityToUpdate);
+            if (!updateResult.Succeeded)
+                throw new Exception("Error updating member");
 
-            bool saveResult = await _memberRepository.SaveAsync();
-            if (saveResult == false)
-                throw new Exception("Error saving changes.");
+            var memberAddress = await _memberAddressRepository.GetAsync(x => x.UserId == id) ?? null;
+
+            if (memberAddress == null)
+            {
+                var memberAddressEntity = MemberAddressFactory.CreateEntity(updateForm, id);
+                await _memberAddressRepository.AddAsync(memberAddressEntity);
+                bool saveAddressResult = await _memberAddressRepository.SaveAsync();
+                if (saveAddressResult == false)
+                    throw new Exception("Failed to save member address.");
+            }
+            else
+            {
+                if (memberAddress.StreetName != updateForm.StreetName ||
+                    memberAddress.PostalCode != updateForm.PostalCode ||
+                    memberAddress.City != updateForm.City)
+                {
+                    MemberAddressFactory.UpdateMemberAddressEntity(memberAddress, updateForm, id);
+                    await _memberAddressRepository.UpdateAsync(x => x.UserId == id, memberAddress);
+                    bool saveAddressResult = await _memberAddressRepository.SaveAsync();
+                    if (saveAddressResult == false)
+                        throw new Exception("Failed to save member address.");
+                }
+            }
+
+            //await _memberRepository.UpdateAsync(x => x.Id == id, entityToUpdate);
+
+            //bool saveResult = await _memberRepository.SaveAsync();
+            //if (saveResult == false)
+            //    throw new Exception("Error saving changes.");
 
             await _memberRepository.CommitTransactionAsync();
             return ResponseResult.Ok();

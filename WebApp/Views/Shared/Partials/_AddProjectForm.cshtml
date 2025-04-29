@@ -95,7 +95,7 @@
                         <option selected disabled hidden>---- Select a status ----</option>
                         @foreach (var member in Model.MembersOnJob)
                         {
-                            <option value="@member.Id">@member.FirstName</option>
+                            <option value="@member.Id">@member.FirstName @member.LastName</option>
 
                         }
 
